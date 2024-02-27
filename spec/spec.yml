@@ -1,0 +1,968 @@
+openapi: 3.0.3
+info:
+  title: aunar_welfare API
+  version: 1.0.0
+  description: API Documentation
+paths:
+  /api/activities/activities/:
+    get:
+      operationId: activitiesActivitiesList
+      tags:
+      - activities
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Activity'
+          description: ''
+  /api/activities/activities/{id}/:
+    get:
+      operationId: activitiesActivitiesRetrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Actividad.
+        required: true
+      tags:
+      - activities
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activity'
+          description: ''
+  /api/activities/activities/{id}/add_student/:
+    post:
+      operationId: activitiesActivitiesAddStudentCreate
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Actividad.
+        required: true
+      tags:
+      - activities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivityRegisterUserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ActivityRegisterUserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ActivityRegisterUserRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activity'
+          description: ''
+  /api/activities/activities/{id}/add_student_participate/:
+    post:
+      operationId: activitiesActivitiesAddStudentParticipateCreate
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Actividad.
+        required: true
+      tags:
+      - activities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivityRegisterUserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ActivityRegisterUserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ActivityRegisterUserRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Participant'
+          description: ''
+  /api/activities/activities/get_my_activities/:
+    post:
+      operationId: activitiesActivitiesGetMyActivitiesCreate
+      tags:
+      - activities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivityRegisterUserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ActivityRegisterUserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ActivityRegisterUserRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Activity'
+          description: ''
+  /api/activities/activities/get_my_activities_teacher/:
+    post:
+      operationId: activitiesActivitiesGetMyActivitiesTeacherCreate
+      tags:
+      - activities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivityRegisterUserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ActivityRegisterUserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ActivityRegisterUserRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Activity'
+          description: ''
+  /api/activities/activities/get_points/:
+    post:
+      operationId: activitiesActivitiesGetPointsCreate
+      tags:
+      - activities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivityRegisterUserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ActivityRegisterUserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ActivityRegisterUserRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Point'
+          description: ''
+  /api/main/configurations/:
+    get:
+      operationId: mainConfigurationsList
+      tags:
+      - main
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Configuration'
+          description: ''
+  /api/main/configurations/{id}/:
+    get:
+      operationId: mainConfigurationsRetrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this configuration.
+        required: true
+      tags:
+      - main
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Configuration'
+          description: ''
+  /api/users/{id}/:
+    delete:
+      operationId: usersDestroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Usuario.
+        required: true
+      tags:
+      - Usuario
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/users/account/{username}/:
+    get:
+      operationId: usersAccountRetrieve
+      description: Obtiene la información de un usuario mediante el nombre usuario
+      summary: Obtiene la información de un usuario mediante el nombre usuario
+      parameters:
+      - in: path
+        name: username
+        schema:
+          type: string
+        required: true
+      tags:
+      - Usuario
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserModel'
+          description: ''
+        '404':
+          description: El Usuario no existe
+    post:
+      operationId: usersAccountCreate
+      description: Actualiza los datos del usuario, solo el usuario puede actualizar
+        sus datos
+      summary: Actualiza los datos del usuario, solo el usuario puede actualizar sus
+        datos
+      parameters:
+      - in: path
+        name: username
+        schema:
+          type: string
+        required: true
+      tags:
+      - Usuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserModelRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserModelRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserModelRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserModel'
+          description: ''
+        '404':
+          description: El Usuario no existe
+        '400':
+          description: Datos inválidos
+        '401':
+          description: Usted no tiene permiso para actualizar este usuario
+    delete:
+      operationId: usersAccountDestroy
+      description: Elimina un usuario, solo el usuario se puede eliminar a si mismo
+      summary: Elimina un usuario, solo el usuario se puede eliminar a si mismo
+      parameters:
+      - in: path
+        name: username
+        schema:
+          type: string
+        required: true
+      tags:
+      - Usuario
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          description: Eliminación exitosa del usuario
+        '404':
+          description: El Usuario no existe
+        '400':
+          description: Usted no tiene permiso para eliminar este usuario
+  /api/users/avatar/:
+    post:
+      operationId: usersAvatarCreate
+      description: Anexar una imagen al avatar del usuario
+      summary: Anexar una imagen al avatar de usuario
+      tags:
+      - Usuario
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                avatar:
+                  type: string
+                  format: binary
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserModel'
+          description: ''
+  /api/users/current/:
+    get:
+      operationId: usersCurrentRetrieve
+      description: Obtiene el usuario actual atravez del token de la sesion
+      summary: Obtiene el usuario actual atravez del token de la sesion
+      tags:
+      - Usuario
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserModel'
+          description: ''
+        '401':
+          description: Usted no tiene permiso para ver este usuario
+  /api/users/generate-code-recover-password/:
+    post:
+      operationId: usersGenerateCodeRecoverPasswordCreate
+      description: Se genera un codigo de 6 digitos con el cual se puede restablecer
+        la contraseña
+      summary: Generar codigo de seguridad para cambio de contraseña
+      tags:
+      - Recover-password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequestRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
+          description: Correo enviado
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
+          description: Lo campos no son correctos
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
+          description: Usuario no encontrado
+  /api/users/login/:
+    post:
+      operationId: usersLoginCreate
+      description: Iniciar Sesión
+      summary: Iniciar sesion
+      tags:
+      - authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomTokenObtainPairRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomTokenObtainPairRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomTokenObtainPairRequest'
+        required: true
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenOutput'
+          description: ''
+  /api/users/logout/:
+    post:
+      operationId: usersLogoutCreate
+      description: Cerrar la sesión
+      summary: Cerrar la sesion
+      tags:
+      - authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogoutRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LogoutRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LogoutRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: Cierre de sesión exitoso
+        '401':
+          description: Usted no tiene permiso para ver este usuario
+  /api/users/recover-password:
+    post:
+      operationId: usersRecoverPasswordCreate
+      description: Se restablece la contraseña con un codigo de 6 digitos
+      summary: Cambio de contraseña atravez de codigo de seguridad
+      tags:
+      - Recover-password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResetPassword'
+          description: ''
+  /api/users/refresh/:
+    post:
+      operationId: usersRefreshCreate
+      description: Se generan nuevas credenciales de sesion con las credenciales anteriores
+      summary: Generar un nuevas credenciales de sesion
+      tags:
+      - authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/users/validate-code/:
+    post:
+      operationId: usersValidateCodeCreate
+      description: Se validad el codigo de seguridad del usuario validando si es correcto
+        y no a caducado
+      summary: Validar Codigo de seguridad para restablecer contraseña
+      tags:
+      - Recover-password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordCodeValidateRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordCodeValidateRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordCodeValidateRequestRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResetPasswordCodeValidateResponse'
+          description: Codigo valido
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
+          description: Codigo caducado
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
+          description: Codigo no valido
+  /documentation/schema/:
+    get:
+      operationId: documentationSchemaRetrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - en
+          - es
+      tags:
+      - documentation
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+components:
+  schemas:
+    Activity:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 225
+        description:
+          type: string
+        image:
+          type: string
+          format: uri
+          nullable: true
+        site:
+          type: string
+          maxLength: 225
+        start_date:
+          type: string
+          format: date
+        hour:
+          $ref: '#/components/schemas/HourEnum'
+        points:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        qr_code:
+          type: string
+          format: uri
+          nullable: true
+        teacher:
+          type: integer
+        students:
+          type: array
+          items:
+            type: integer
+        participants:
+          type: array
+          items:
+            type: integer
+          readOnly: true
+      required:
+      - description
+      - hour
+      - id
+      - participants
+      - points
+      - site
+      - start_date
+      - students
+      - teacher
+      - title
+    ActivityRegisterUserRequest:
+      type: object
+      properties:
+        user_id:
+          type: integer
+      required:
+      - user_id
+    Configuration:
+      type: object
+      properties:
+        key:
+          type: string
+          maxLength: 200
+        value:
+          type: string
+          maxLength: 200
+      required:
+      - key
+      - value
+    CustomTokenObtainPairRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          writeOnly: true
+          minLength: 1
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - email
+      - password
+    DefaultResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+      required:
+      - detail
+    HourEnum:
+      enum:
+      - 06:00
+      - 06:30
+      - 07:00
+      - 07:30
+      - 08:00
+      - 08:30
+      - 09:00
+      - 09:30
+      - '10:00'
+      - '10:30'
+      - '11:00'
+      - '11:30'
+      - '12:00'
+      - '12:30'
+      - '13:00'
+      - '13:30'
+      - '14:00'
+      - '14:30'
+      - '15:00'
+      - '15:30'
+      - '16:00'
+      - '16:30'
+      - '17:00'
+      - '17:30'
+      - '18:00'
+      - '18:30'
+      type: string
+      description: |-
+        * `06:00` - 06:00
+        * `06:30` - 06:30
+        * `07:00` - 07:00
+        * `07:30` - 07:30
+        * `08:00` - 08:00
+        * `08:30` - 08:30
+        * `09:00` - 09:00
+        * `09:30` - 09:30
+        * `10:00` - 10:00
+        * `10:30` - 10:30
+        * `11:00` - 11:00
+        * `11:30` - 11:30
+        * `12:00` - 12:00
+        * `12:30` - 12:30
+        * `13:00` - 13:00
+        * `13:30` - 13:30
+        * `14:00` - 14:00
+        * `14:30` - 14:30
+        * `15:00` - 15:00
+        * `15:30` - 15:30
+        * `16:00` - 16:00
+        * `16:30` - 16:30
+        * `17:00` - 17:00
+        * `17:30` - 17:30
+        * `18:00` - 18:00
+        * `18:30` - 18:30
+    LogoutRequest:
+      type: object
+      properties:
+        refresh_token:
+          type: string
+          minLength: 1
+      required:
+      - refresh_token
+    Participant:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        date_start:
+          type: string
+          format: date-time
+          readOnly: true
+        date_end:
+          type: string
+          format: date-time
+          nullable: true
+        validate:
+          type: boolean
+        user:
+          type: integer
+        activity:
+          type: integer
+      required:
+      - activity
+      - date_start
+      - id
+      - user
+    Point:
+      type: object
+      properties:
+        points:
+          type: integer
+      required:
+      - points
+    ResetPassword:
+      type: object
+      properties:
+        password:
+          type: string
+        token:
+          type: string
+      required:
+      - password
+      - token
+    ResetPasswordCodeValidateRequestRequest:
+      type: object
+      properties:
+        code:
+          type: integer
+        email:
+          type: string
+          format: email
+          minLength: 1
+      required:
+      - code
+      - email
+    ResetPasswordCodeValidateResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+        token:
+          type: string
+      required:
+      - detail
+      - token
+    ResetPasswordRequest:
+      type: object
+      properties:
+        password:
+          type: string
+          minLength: 1
+        token:
+          type: string
+          minLength: 1
+      required:
+      - password
+      - token
+    ResetPasswordRequestRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+      required:
+      - email
+    TokenOutput:
+      type: object
+      properties:
+        refresh:
+          type: string
+          title: Refresh token
+        access:
+          type: string
+          title: Access token
+      required:
+      - access
+      - refresh
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+    TokenRefreshRequest:
+      type: object
+      properties:
+        refresh:
+          type: string
+          minLength: 1
+      required:
+      - refresh
+    TypeEnum:
+      enum:
+      - ADMINISTRATOR
+      - STUDENT
+      - TEACHER
+      type: string
+      description: |-
+        * `ADMINISTRATOR` - Administrator
+        * `STUDENT` - Estudiante
+        * `TEACHER` - Maestro
+    UserModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Correo Electrónico
+          maxLength: 254
+        avatar:
+          type: string
+          readOnly: true
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+      required:
+      - avatar
+      - email
+      - id
+      - username
+    UserModelRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 1
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          minLength: 1
+          title: Correo Electrónico
+          maxLength: 254
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+      required:
+      - email
+      - username
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
