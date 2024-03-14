@@ -1,5 +1,6 @@
 import 'package:aunar_welfar/const/host.dart';
 import 'package:aunar_welfar/const/interceptor.dart';
+import 'package:aunar_welfar/const/utils.dart';
 import 'package:aunar_welfar/domain/repository/local_storage_inter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -23,9 +24,13 @@ class LoginProvider extends ChangeNotifier {
 
   LoginProvider({required this.localStorageInterface});
 
+  StateLoading state = StateLoading.initial;
+
   String? error;
 
   Future<bool?> login() async {
+    state = StateLoading.loading;
+    notifyListeners();
     try {
       final login = await authenticationApi.usersLoginCreate(
           customTokenObtainPairRequest: CustomTokenObtainPairRequest(
@@ -38,6 +43,8 @@ class LoginProvider extends ChangeNotifier {
         localStorageInterface.setAccess(login.data!.access);
         final user = await usuarioApi.usersCurrentRetrieve();
         if (user.statusCode == 200) {
+          state = StateLoading.initial;
+          notifyListeners();
           localStorageInterface.setUserId(user.data!.id);
           localStorageInterface.setRol(user.data!.type!.name);
           return true;
@@ -45,7 +52,9 @@ class LoginProvider extends ChangeNotifier {
       }
       return false;
     } on DioException catch (_) {
-      error = _.error as String?;
+      state = StateLoading.initial;
+      notifyListeners();
+      error = _.response!.data['error'] ?? 'Credenciales incorrectas';
     }
   }
 }

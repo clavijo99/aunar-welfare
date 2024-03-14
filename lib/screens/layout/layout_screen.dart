@@ -12,8 +12,9 @@ class LayoutScreen extends StatelessWidget {
   static Widget init(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => LayoutProvider(
-        localStorageInterface: Provider.of<LocalStorageInterface>(context,listen: false)
-      )..init(),
+          localStorageInterface:
+              Provider.of<LocalStorageInterface>(context, listen: false))
+        ..init(),
       builder: (context, child) => const LayoutScreen._(),
     );
   }
@@ -21,48 +22,63 @@ class LayoutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of<LayoutProvider>(context);
-      List<Widget> pagesStudent = [ActivitiesScreen.init(context), MyActivitiesScreen.init(context), ProfileScreen.init(context)];
-            List<Widget> pagesTeacher = [MyActivitiesScreen.init(context), ProfileScreen.init(context)];
-
-
+    List<Widget> pagesStudent = [
+      ActivitiesScreen.init(context),
+      MyActivitiesScreen.init(context),
+      ProfileScreen.init(context)
+    ];
+    List<Widget> pagesTeacher = [
+      MyActivitiesScreen.init(context),
+      ProfileScreen.init(context)
+    ];
 
     return Scaffold(
-      body:  bloc.type == 'STUDENT' ?  pagesStudent.elementAt(bloc.getPage()) : pagesTeacher.elementAt(bloc.getPage()),
-      bottomNavigationBar: BottomNavigationBar(
-        items:  bloc.type == 'STUDENT' ?   const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_activity_outlined),
-            label: 'Actividades',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.local_activity_outlined,
+      body: bloc.type != null
+          ? bloc.type == 'STUDENT'
+              ? pagesStudent.elementAt(bloc.getPage())
+              : pagesTeacher.elementAt(bloc.getPage())
+          : const Center(
+              child: CircularProgressIndicator(),
             ),
-            label: 'Mis Actividades',
-          ),
-                    BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-            ),
-            label: 'Mi perfil',
-          )
-        ] : const [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.local_activity_outlined,
-            ),
-            label: 'Mis Actividades',
-          ),
-                    BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-            ),
-            label: 'Mi perfil',
-          )
-        ] ,
-        onTap: (value) => bloc.setPage(value),
-        currentIndex: bloc.getPage(),
-      ),
+      bottomNavigationBar: bloc.type != null
+          ? BottomNavigationBar(
+              items: bloc.type == 'STUDENT'
+                  ? const [
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.local_activity_outlined),
+                        label: 'Actividades',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(
+                          Icons.local_activity_outlined,
+                        ),
+                        label: 'Mis Actividades',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(
+                          Icons.person,
+                        ),
+                        label: 'Mi perfil',
+                      )
+                    ]
+                  : const [
+                      BottomNavigationBarItem(
+                        icon: Icon(
+                          Icons.local_activity_outlined,
+                        ),
+                        label: 'Mis Actividades',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(
+                          Icons.person,
+                        ),
+                        label: 'Mi perfil',
+                      )
+                    ],
+              onTap: (value) => bloc.setPage(value),
+              currentIndex: bloc.getPage(),
+            )
+          : null,
     );
   }
 }

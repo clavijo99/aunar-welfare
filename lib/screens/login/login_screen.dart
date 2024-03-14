@@ -1,5 +1,6 @@
 import 'package:aunar_welfar/const/colors.dart';
 import 'package:aunar_welfar/const/navigation.dart';
+import 'package:aunar_welfar/const/utils.dart';
 import 'package:aunar_welfar/domain/repository/local_storage_inter.dart';
 import 'package:aunar_welfar/screens/login/login_provider.dart';
 import 'package:flutter/material.dart';
@@ -26,43 +27,63 @@ class LoginScreen extends StatelessWidget {
       final result = await bloc.login();
       if (result != null) {
         if (result) {
-          pushReplacement(context, 'layout', null);
-        } else {
-          final snackBar = SnackBar(
-            content: Text(bloc.error ?? 'error'),
-            backgroundColor: Colors.red,
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          return pushReplacement(context, 'layout', null);
         }
       }
+      final snackBar = SnackBar(
+        content: Text(bloc.error ?? 'error'),
+        backgroundColor: Colors.red,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
 
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/logo.png',
-                width: size.width * 0.7,
+      body: Center(
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/logo.png',
+                    width: size.width * 0.7,
+                  ),
+                  TextFieldCustom(
+                    label: 'Usuario',
+                    controller: bloc.email,
+                    textInputType: TextInputType.emailAddress,
+                  ),
+                  TextFieldCustom(
+                    label: 'Contraseña',
+                    hinText: '********',
+                    controller: bloc.password,
+                    isPassword: true,
+                  ),
+                  SizedBox(height: 50),
+                  ButtonCustom(
+                    text: 'Ingresar',
+                    onTap: login,
+                  ),
+                  const SizedBox(height: 50),
+                ],
               ),
-              TextFieldCustom(
-                label: 'Usuario',
-                controller: bloc.email,
+            ),
+            if (bloc.state == StateLoading.loading)
+              Positioned.fill(
+                child: Container(
+                  color: primaryColor.withOpacity(0.4),
+                ),
               ),
-              TextFieldCustom(
-                label: 'Contraseña',
-                hinText: '********',
-                controller: bloc.password,
+            if (bloc.state == StateLoading.loading)
+              const Positioned.fill(
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: primaryColor,
+                  ),
+                ),
               ),
-              SizedBox(height: 50),
-              ButtonCustom(
-                text: 'Ingresar',
-                onTap: login,
-              )
-            ],
-          ),
+          ],
         ),
       ),
     );
@@ -110,28 +131,55 @@ class ButtonCustom extends StatelessWidget {
   }
 }
 
-class TextFieldCustom extends StatelessWidget {
-  const TextFieldCustom({
-    super.key,
-    required this.label,
-    this.hinText,
-    this.controller,
-  });
+class TextFieldCustom extends StatefulWidget {
+  const TextFieldCustom(
+      {super.key,
+      required this.label,
+      this.hinText,
+      this.controller,
+      this.isPassword = false,
+      this.textInputType = TextInputType.text});
   final String label;
   final String? hinText;
   final TextEditingController? controller;
+  final bool isPassword;
+  final TextInputType textInputType;
 
+  @override
+  State<TextFieldCustom> createState() => _TextFieldCustomState();
+}
+
+class _TextFieldCustomState extends State<TextFieldCustom> {
+  bool visible = true;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: TextFormField(
         decoration: InputDecoration(
-          hintText: hinText,
-          label: Text(label),
+          hintText: widget.hinText,
+          label: Text(widget.label),
+          suffixIcon: widget.isPassword
+              ? GestureDetector(
+                  onTap: () => setState(() {
+                    visible = !visible;
+                  }),
+                  child: visible
+                      ? Icon(
+                          Icons.visibility,
+                          color: primaryColor,
+                        )
+                      : Icon(
+                          Icons.visibility_off,
+                          color: primaryColor,
+                        ),
+                )
+              : null,
         ),
         cursorColor: primaryColor,
-        controller: controller,
+        controller: widget.controller,
+        obscureText: widget.isPassword ? visible : false,
+        keyboardType: widget.textInputType,
       ),
     );
   }

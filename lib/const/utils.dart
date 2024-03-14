@@ -34,3 +34,9 @@ String getMount(int mount) {
       return 'Mes inválido';
   }
 }
+
+
+enum StateLoading{
+  initial,
+  loading,
+}
